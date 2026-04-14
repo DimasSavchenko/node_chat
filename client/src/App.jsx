@@ -43,6 +43,7 @@ export default function App() {
     socket.on('roomRenamed', (room) => {
       setCurrentRoom((prev) => (prev && prev.id === room.id ? room : prev));
       setRenameValue(room.name);
+      showToast('Room renamed', 'info');
     });
     socket.on('roomDeleted', (roomId) => {
       setRooms((prev) => prev.filter((room) => room.id !== roomId));
@@ -150,20 +151,9 @@ export default function App() {
       return;
     }
 
-    socket.emit('createRoom', cleaned, (response) => {
-      if (!response?.ok) {
-        const message = response?.error || 'Failed to create room';
-        setError(message);
-        showToast(message, 'error');
-        return;
-      }
-
-      showToast('Room created', 'success');
-      joinRoom(response.roomId);
-    });
+    socket.emit('createRoom', cleaned);
 
     setNewRoomName('');
-    showToast('Creating room...', 'info');
   };
 
   const renameRoom = (event) => {
@@ -185,7 +175,6 @@ export default function App() {
     }
 
     socket.emit('renameRoom', { roomId: currentRoom.id, newName: cleaned });
-    showToast('Room renamed', 'success');
   };
 
   const deleteRoom = () => {
@@ -194,7 +183,6 @@ export default function App() {
     }
 
     socket.emit('deleteRoom', currentRoom.id);
-    showToast('Room delete requested', 'warning');
   };
 
   const resetUsername = () => {

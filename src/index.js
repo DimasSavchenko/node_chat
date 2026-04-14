@@ -64,11 +64,13 @@ io.on('connection', (socket) => {
 
     if (!cleaned) {
       socket.emit('error', 'Username is required');
+
       return;
     }
 
     if (cleaned.length > MAX_USERNAME_LEN) {
       socket.emit('error', `Username must be <= ${MAX_USERNAME_LEN} chars`);
+
       return;
     }
 
@@ -79,6 +81,7 @@ io.on('connection', (socket) => {
   socket.on('joinRoom', (roomId) => {
     if (!username) {
       socket.emit('error', 'Set username first');
+
       return;
     }
 
@@ -127,6 +130,7 @@ io.on('connection', (socket) => {
 
     if (cleaned.length > MAX_MESSAGE_LEN) {
       socket.emit('error', `Message must be <= ${MAX_MESSAGE_LEN} chars`);
+
       return;
     }
 
@@ -139,9 +143,10 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('createRoom', (roomName, ack) => {
+  socket.on('createRoom', (roomName) => {
     if (!username) {
       socket.emit('error', 'Set username first');
+
       return;
     }
 
@@ -149,11 +154,13 @@ io.on('connection', (socket) => {
 
     if (!cleaned) {
       socket.emit('error', 'Room name is required');
+
       return;
     }
 
     if (cleaned.length > MAX_ROOM_NAME_LEN) {
       socket.emit('error', `Room name must be <= ${MAX_ROOM_NAME_LEN} chars`);
+
       return;
     }
 
@@ -182,11 +189,13 @@ io.on('connection', (socket) => {
 
     if (!cleaned) {
       socket.emit('error', 'Room name is required');
+
       return;
     }
 
     if (cleaned.length > MAX_ROOM_NAME_LEN) {
       socket.emit('error', `Room name must be <= ${MAX_ROOM_NAME_LEN} chars`);
+
       return;
     }
 
